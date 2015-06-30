@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/customLayoutTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>AEGON</title>
+		<style>
+			.ui-menu {width:inherit !important;}
+			.ui-layout-unit .ui-widget .ui-widget-content .ui-corner-all .ui-layout-west .ui-layout-pane .ui-layout-pane-west {border:0 none !important;}
+			
+			.ui-layout-resizer, .ui-layout-resizer-north, ui-layout-resizer-open, .ui-layout-resizer-north-open {display: none !important;}
+		</style>
+	</ui:define>
+	
+	<ui:define name="menu">
+		<ui:include src="menu-admin.xhtml"></ui:include>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:panelGroup style="display:block;text-align:center;margin-top:2em;">
+			<p:graphicImage value="/resources/image/aegon.png" style="max-height:100%;max-width:30%;"/>
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>

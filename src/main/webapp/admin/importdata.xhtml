@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/customLayoutTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>Import File</title>
+		<style>
+			.uploadPanelRemoval {
+				display:inline-block;
+				padding: 0 0 0 0 !important;
+				border: none !important;
+				background: none !important;
+			}
+			.uploadPanelRemoval > div {
+				padding: inherit !important;
+				border: inherit !important;
+				background: inherit !important;
+			}
+			.uploadPanelRemoval > div:nth-child(2) {
+				display:none !important;
+			}
+			.main-panel {margin:0 auto 0 auto;border:0 !important;}
+		</style>
+	</ui:define>
+		
+	<ui:define name="content">
+		<h:form id="frmUpload" enctype="multipart/form-data">
+			
+			<p:panel styleClass="main-panel">
+				
+				<h:panelGroup id="panelWrap" style="display:block; text-align:center;">
+					<h:panelGroup>
+						<p:outputLabel value="For upload data file."/> 
+					</h:panelGroup>
+					
+					<h:panelGroup style="text-align:left;display: block; margin:0 auto; width:600px">
+						<p:fileUpload id="fileUpload" fileUploadListener="#{importFileView.handleFileUpload}"
+						mode="advanced"
+						allowTypes="/(\.|\/)(xls|xlsx)$/"
+						sizeLimit="1000000000"
+						onstart="PF('progressDialog').show()"
+						oncomplete="PF('progressDialog').hide()"
+						update="@form"/>
+						<p:messages id="messages" closable="true"/>
+					</h:panelGroup>
+					
+				</h:panelGroup>
+			</p:panel>
+			
+			<p:dialog widgetVar="progressDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage id="loader" value="/resources/image/gif/ajax-loader.gif"/>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileFormat fileName="" fileType="xls" locale="US">
+	<DataSet description="Question Data">
+		<DataSheet sheetName="" sheetIndex="0">
+
+			<DataRecord listSourceName="dataList" beginRow="3" endRow="9999">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="campaignName" autoTrim="TRUE"/>
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="sectionNo" autoTrim="TRUE" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="sectionName" autoTrim="TRUE" />
+				<DataCell row="1" column="D" dataType="TEXT" fieldName="sectionDesc" autoTrim="TRUE" />
+				<DataCell row="1" column="E" dataType="TEXT" fieldName="questionNo" autoTrim="TRUE" />
+				<DataCell row="1" column="F" dataType="TEXT" fieldName="questionTxt" autoTrim="TRUE" />
+				<DataCell row="1" column="G" dataType="TEXT" fieldName="correctAns" autoTrim="TRUE" />
+				<DataCell row="1" column="H" dataType="TEXT" fieldName="choiceA" autoTrim="TRUE" />
+				<DataCell row="1" column="I" dataType="TEXT" fieldName="choiceB" autoTrim="TRUE" />
+				<DataCell row="1" column="J" dataType="TEXT" fieldName="choiceC" autoTrim="TRUE" />
+				<DataCell row="1" column="K" dataType="TEXT" fieldName="choiceD" autoTrim="TRUE" />
+		
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+				
+			</DataRecord>
+		</DataSheet>
+		
+	</DataSet>
+</FileFormat>

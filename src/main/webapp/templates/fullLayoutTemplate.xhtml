@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:view locale="#{language.localeCode}">
+		<h:head>
+			<f:facet name="first">
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+				<meta http-equiv="pragma" content="no-cache" />
+				<meta http-equiv="cache-control" content="no-cache" />
+				<meta http-equiv="expires" content="0" />
+				<link rel="shortcut icon" href="#{request.contextPath}/resources/image/ico/aegon.ico" />
+			</f:facet>
+			<style>
+				.wrapper {width:100%; margin:0 auto;}
+				.headerBox {display:block;text-align:center;}
+				.adamsLogo {background-image: url("#{request.contextPath}/resources/image/ADAMS_logo.png"); width:281px; height:90px;");}
+				.layout-hid-overflow {overflow-y:hidden !important;}
+				.layout-hid-overflow > div {overflow-y:inherit !important;}
+			</style>
+			<h:outputStylesheet library="css" name="global.css" />
+			
+			<ui:insert name="head" />
+		</h:head>
+		
+		<h:body>
+			<h:form id="frmMain" >
+				<p:layout id="layoutMain" fullPage="true" style="border:0; width:95%;"> 
+				
+					<p:layoutUnit id="layoutNorth" position="north" resizable="false" closable="false" collapsible="false" styleClass="layout-hid-overflow">
+						<h:panelGroup styleClass="headerBox">
+							<div class="adamsLogo" style="display: inline-table;"/>
+							<ui:include src="/menu-admin.xhtml" />
+						</h:panelGroup>
+					</p:layoutUnit>
+					
+					<ui:remove>
+						<p:layoutUnit position="west" size="250" resizable="false" closable="false" collapsible="false">
+							<ui:include src="/menu-admin.xhtml"></ui:include>
+						</p:layoutUnit>
+					</ui:remove>
+					
+					<p:layoutUnit position="center" resizable="false" closable="false" collapsible="false">
+						<h:panelGroup styleClass="wrapper">
+							<ui:insert name="content" />
+						</h:panelGroup>
+					</p:layoutUnit>
+					
+				</p:layout>
+				
+				<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px;">
+					<h:outputText value="#{baseBean.currentVersrion}"/>
+				</h:panelGroup>
+			</h:form>
+			
+		</h:body>
+	</f:view>
+</html>

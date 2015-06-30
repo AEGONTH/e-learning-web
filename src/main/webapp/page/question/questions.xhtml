@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/mainTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>Main Information</title>
+		<style>
+			.main-panel {width:70%;min-width:350px;margin:40px auto 0 auto;}
+			.main-btn-width {width:150px}
+		</style>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form id="frmMain">
+			
+			<ui:param name="idxSection" value="#{questionView.currSectionNum}" />
+			<ui:param name="lastIdxSection" value="#{fn:length(questionView.sectionModels) - 1}" />
+			<ui:param name="section" value="#{questionView.sectionModels[idxSection]}" />
+			
+			<ui:param name="idxQuestion" value="#{questionView.currQuestionNum}"/>
+			<ui:param name="lastIdxQuestion" value="#{fn:length(section.questions) - 1}" />
+			<ui:param name="question" value="#{section.questions[idxQuestion]}"/>
+			
+			<p:panel id="section-panel" styleClass="main-panel" style="text-align:left" rendered="#{questionView.sectionIntro}">
+				<f:facet name="header">
+					<h:outputText value="#{section.sectionName}" style="font-size:16px;"/>
+				</f:facet>
+				<h:outputText value="#{section.sectionDesc}"/>	
+			</p:panel>
+			
+			<p:panel id="question-panel" styleClass="main-panel" rendered="#{!questionView.sectionIntro}">
+				<p:messages id="msg" style="text-align:left;" autoUpdate="false" closable="true"/>
+				<p:panel style="width:100%; display:block; text-align:left;">
+					<p:outputLabel value="#{idxQuestion + 1}) #{question.questionText}"/>
+				</p:panel>
+				<h:panelGroup style="width:100%; display:block; text-align:left; margin-left:1.5em;">
+					<p:selectOneRadio value="#{question.answer}" layout="grid" columns="1">
+						<f:selectItems value="#{question.choices}"/>
+					</p:selectOneRadio>
+				</h:panelGroup>
+			</p:panel>
+			
+			<h:panelGroup style="width:100%; display:block; margin-top: 5px;text-align:center;">
+				<h:panelGroup rendered="#{questionView.sectionIntro}">
+					<p:commandButton id="btnStartQuestion" value="Begin" icon="fa fa-play" iconPos="right"
+									actionListener="#{questionView.startQuestion}"
+									update="@form" styleClass="main-btn-width" style="height: 40px; width:230px;"/>
+									
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{!questionView.sectionIntro}">
+				
+					<p:commandButton id="btnPrevious" value="Previous" icon="fa fa-arrow-left"
+									actionListener="#{questionView.previousQuestion}" 
+									update="@form" styleClass="main-btn-width"
+									disabled="#{idxQuestion eq 0}"/>
+									
+					<p:commandButton id="btnNext" value="Next" icon="fa fa-arrow-right" iconPos="right"
+									actionListener="#{questionView.nextQuestion}" 
+									update="@form" styleClass="main-btn-width"
+									rendered="#{idxQuestion lt lastIdxQuestion}">
+					</p:commandButton>
+					
+					<p:commandButton id="btnNextSection" value="Next Section" icon="fa fa-step-forward" iconPos="right"
+									actionListener="#{questionView.nextSection}"
+									update="@form"
+									styleClass="main-btn-width"
+									rendered="#{idxQuestion eq lastIdxQuestion and idxSection != lastIdxSection}" >
+						<p:confirm header="Confirmation" message="#{globalMsg['modal.dialog.confirm.next.section']}" icon="ui-icon-alert"/>
+					</p:commandButton>
+								
+					<p:commandButton id="btSubmit" value="Finish" icon="fa fa-save" iconPos="right"
+									action="#{questionView.doFinish}" 
+									rendered="#{idxSection eq lastIdxSection and idxQuestion eq lastIdxQuestion}" 
+									update="@form" styleClass="main-btn-width"/>
+					
+					
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<p:confirmDialog global="true" closeOnEscape="true" >
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" style="width:150px;" icon="fa fa-check"/>
+	       		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" style="width:150px" icon="fa fa-close"/>
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

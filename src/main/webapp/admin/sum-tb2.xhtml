@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<style>
+		.botton-wrapper {display:block;}
+		.botton-wrapper .content {display:block;}
+	</style>
+	
+	<div class="botton-wrapper">
+		<p:commandButton value="#{msg['common.btn.txt.back']}" icon="fa fa-mail-reply" 
+			actionListener="#{summarizeView.backToByDate}" 
+			update="frmMain:frmSummarize:mainPanel"
+			style="margin-bottom:5px;"/>
+		<h:panelGroup id="panelTableContent" styleClass="content">
+			<p:dataTable id="tbCandidates"
+				value="#{summarizeView.selectedByDate.candidates}"
+				var="candidate"
+				reflow="true"
+				paginator="true"
+				paginatorAlwaysVisible="true"
+				paginatorTemplate="#{summarizeView.defaultPaginateTemplate}"
+				paginatorPosition="bottom"
+				rows="10"
+				emptyMessage="Not found"
+				styleClass=""
+				style="margin:0 auto;width:100%;">
+				
+				<f:facet name="header">
+					<h:outputFormat value="#{msg['tb.candidates.header']}">
+						<f:param value="#{summarizeView.selectedByDate.date}"/>
+					</h:outputFormat>
+				</f:facet>
+				
+				<p:column headerText="#{msg['tb.candidates.col.0']}" sortBy="#{candidate.id}" styleClass="column-short txt-center">
+					<h:outputText value="#{candidate.id}"/>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.1']}" sortBy="#{candidate.student.firstName}" 
+					filterBy="#{candidate.student.fullName}" filterMatchMode="contains"
+					styleClass="column-long" >
+					<h:outputText value="#{candidate.student.fullName}"/>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.2']}" sortBy="#{candidate.course.courseName}" styleClass="column-mid-long">
+					<h:outputText value="#{candidate.course.courseName}"/>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.3']}" sortBy="#{candidate.examLevel.examLevel}" styleClass="column-mid-short txt-center">
+					<h:outputText value="#{candidate.examLevel.examLevel}"/>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.4']}" sortBy="#{candidate.marks}" styleClass="column-mid-short txt-center">
+					<h:outputText value="#{candidate.marks}"/>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.5']}" styleClass="column-mid-short txt-center">
+					<h:outputText value="#{candidate.fullMarks}" />
+				</p:column>
+				
+				<p:column exportable="false" styleClass="column-action">
+					<p:commandButton value="#{msg['common.btn.txt.view']}" icon="#{summarizeView.defaultIconViewDetail}" title="#{msg['common.btn.title.view']}" actionListener="#{summarizeView.onRowSelectCandidateDetail(candidate)}" update="frmMain:frmSummarize:mainPanel"/>
+				</p:column>
+				
+			</p:dataTable>
+		</h:panelGroup>
+	</div>
+	
+	
+</ui:composition>

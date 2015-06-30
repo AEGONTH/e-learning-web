@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/mainTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>Thank You</title>
+		
+		<style>
+			.main-panel {width:70%;min-width:350px;margin:40px auto 0 auto;}
+			.input-width {width:250px !important;}
+		</style>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form id="frmMain">
+			<p:remoteCommand actionListener="#{loginView.doLogout}" global="false" autoRun="true" delay="1000" update="@form"/>
+			
+			<h:panelGrid columns="1" style="margin:0 auto; text-align:center; width:300px;">
+				<h:outputFormat value="#{globalMsg['common.txt.thank.you.1']}"/>
+					<h:outputFormat value="#{globalMsg['common.txt.thank.you.2']}">
+						<f:param value="#{loginView.delay}"/>
+					</h:outputFormat>
+			</h:panelGrid>
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>

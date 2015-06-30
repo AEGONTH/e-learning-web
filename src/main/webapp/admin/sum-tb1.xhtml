@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dataTable id="tbSummarizeByDate" 
+		value="#{summarizeView.summarizeByDates}"
+		var="sum"
+		rowKey="#{sum.date}"
+		paginator="true"
+		paginatorAlwaysVisible="true"
+		paginatorTemplate="#{summarizeView.defaultPaginateTemplate}"
+		paginatorPosition="bottom"
+		rows="10"
+		emptyMessage="Not found"
+		styleClass="default-margin-table"
+		style="width:70%; min-width:350px;max-width:750px;">
+		
+		<f:facet name="header">
+			<h:outputFormat value="#{msg['tb.summary.date.header']}"/>
+		</f:facet>
+		
+		<p:column headerText="#{msg['tb.summary.date.col.0']}" sortBy="#{sum.date}" styleClass="txt-center">
+			<h:outputText value="#{sum.date}">
+				<f:convertDateTime pattern="dd/MM/yyyy"/>
+			</h:outputText>
+		</p:column>
+		
+		<p:column headerText="#{msg['tb.summary.date.col.1']}" styleClass="txt-center">
+			<h:outputText value="#{fn:length(sum.candidates)}"></h:outputText>
+		</p:column>
+		
+		<p:column styleClass="column-action">
+             <p:commandButton value="#{msg['common.btn.txt.view']}"
+              icon="#{summarizeView.defaultIconViewDetail}" 
+              title="#{msg['common.btn.title.view']}" 
+              actionListener="#{summarizeView.onRowSelectByDate(sum)}" update="frmMain:frmSummarize:mainPanel" />
+        </p:column>
+	</p:dataTable>
+	
+</ui:composition>

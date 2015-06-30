@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="menu-wrapper" style="margin-bottom:5px;">
+		<div style="">
+			<p:commandButton value="#{msg['common.btn.txt.back']}" icon="fa fa-mail-reply" actionListener="#{summarizeView.backToCandidatesByDate}" update="frmMain:frmSummarize:mainPanel"/>
+		</div>
+	</div>
+	<p:dataTable id="tbCandidateDetail" widgetVar="tbDetailVar"
+		value="#{summarizeView.candidateDetail.bySection}"
+		var="var"
+		reflow="false"
+		paginator="true"
+		paginatorAlwaysVisible="true"
+		paginatorTemplate="#{summarizeView.defaultPaginateTemplate}"
+		paginatorPosition="bottom"
+		rows="10"
+		emptyMessage="Not found"
+		styleClass=""
+		style="margin:0 auto;width:inherit;">
+		
+		<f:facet name="header">
+			<h:outputFormat value="#{msg['tb.candidate.detail.header']}">
+				<f:param value="#{summarizeView.candidateDetail.student.firstName} #{summarizeView.candidateDetail.student.lastName}"/>
+			</h:outputFormat>
+		</f:facet>
+		
+		<p:column style="width:16px">
+            <p:rowToggler />
+        </p:column>
+		<p:column headerText="#{msg['tb.candidate.detail.col.1']}" styleClass="column-mid-short txt-center">
+			<h:outputText value="#{var.sectionNo}" />
+		</p:column>
+		<p:column headerText="#{msg['tb.candidate.detail.col.2']}" style="width:320px;" >
+			<h:outputText value="#{var.sectionName}" />
+		</p:column>
+		<p:column headerText="#{msg['tb.candidate.detail.col.3']}">
+			<h:outputText value="#{var.description}" />
+		</p:column>
+		<p:column headerText="#{msg['tb.candidate.detail.col.4']}" styleClass="column-mid-short txt-center">
+			<h:outputText value="#{var.marks}"/>
+		</p:column>
+		
+		<p:rowExpansion>
+			<p:dataTable value="#{var.results}" var="detail" >
+				
+				<p:column headerText="#{msg['tb.sub.candidate.detail.col.0']}" style="width:32px;" styleClass="txt-center bg-color-grey">
+					<h:outputText value="#{detail.answer.question.questionNo}"/>
+				</p:column>
+				<p:column headerText="#{msg['tb.sub.candidate.detail.col.1']}" styleClass="bg-color-grey">
+					<h:outputText value="#{detail.answer.question.questionText}"/>
+				</p:column>
+				<p:column headerText="#{msg['tb.sub.candidate.detail.col.3']}" styleClass="bg-color-grey">
+					<h:outputText value="#{detail.answer.choiceLetter}) #{detail.answer.answerText}"/>
+				</p:column>
+				<p:column headerText="#{msg['tb.sub.candidate.detail.col.4']}" style="width:70px;" 
+					styleClass="txt-center #{detail.answer.answerType.answerTypeCode eq 'CORRECT_ANS' ? 'color-green' : 'color-red'} bg-color-grey">
+					<h:outputText value="#{detail.answer.answerType.description}"></h:outputText>
+				</p:column>
+				
+			</p:dataTable>
+		</p:rowExpansion>
+		
+	</p:dataTable>
+	
+</ui:composition>

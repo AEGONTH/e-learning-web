@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/mainTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>Main Information</title>
+		
+		<style>
+			.main-panel {width:70%;min-width:350px;margin:40px auto 0 auto;}
+			.input-width {width:300px !important;}
+			.txt-right {text-align:right;}
+			.txt-left {text-align:left;}
+		</style>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form id="frmMain">
+			
+			<p:panel id="panelInfo" styleClass="main-panel">
+				<f:facet name="header">
+					<p:outputLabel value="Courses" style="font-size: 18px; font-weight:bold; float:left"/>
+				</f:facet>
+				
+				<p:messages id="msg" autoUpdate="false" style="font-size:11px; margin:0 auto; width:650px;" closable="true"/>
+				
+				<h:panelGrid columns="2" style="width:400px;text-align:center;margin:0 auto;" columnClasses="txt-left, txt-right">
+					<p:outputLabel value="Level: " for="selectionLevel"/>
+					<p:selectOneMenu id="selectionLevel" value="#{courseInfoView.selectedLevel}" styleClass="input-width">
+						<f:selectItems value="#{courseInfoView.selectionLevels}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Campaign: " for="selectionCampaign"/>
+					<p:selectOneMenu id="selectionCampaign" value="#{courseInfoView.selectedCampaign}" styleClass="input-width">
+						<f:selectItems value="#{courseInfoView.selectionCampaigns}" />
+						<p:ajax listener="#{courseInfoView.courseSelectListener()}" update="selectionSection" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Module: "/>
+					<p:selectOneMenu id="selectionSection" value="#{courseInfoView.selectedSection}" styleClass="input-width" 
+						disabled="#{fn:length(courseInfoView.selectionSections) eq 1}">
+						<f:selectItems value="#{courseInfoView.selectionSections}"/>
+					</p:selectOneMenu>
+				</h:panelGrid>
+				
+				<h:panelGroup style="display:block; margin-top:10px;text-align:center;">
+					<p:commandButton id="btnSubmit" value="Submit" 
+						styleClass="input-width"
+						action="#{courseInfoView.proceed}" 
+						update="@form">
+					</p:commandButton>
+				</h:panelGroup>
+			</p:panel>
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>

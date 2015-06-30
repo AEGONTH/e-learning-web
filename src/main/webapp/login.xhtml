@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/mainTemplate.xhtml">
+
+	<ui:define name="head">
+		<ui:remove><meta http-equiv="refresh" content="30" /></ui:remove>
+		<title>Login</title>
+	</ui:define>
+	
+	<ui:define name="content">
+	<style>
+		.loginBox {width:400px;margin:40px auto 0 auto;}
+		.loginTable {width:100%;margin:0 auto;}
+		.loginTable tr, .loginTable td{border:0 none !important; border-style: none !important;}
+		
+		.bottomBox {display:block; padding-top:5px;}
+		
+		.btn-font {font-family: sans-serif !important;font-size: 13px !important;}
+		
+	</style>
+		<h:form id="frmLogin">
+				
+			<p:panel id="panelLogin" styleClass="loginBox">
+			
+				<h:panelGroup style="display:block; margin-bottom: 4px;text-align:center;">
+					<h:outputText value="Login" style="font-size: 20px;"/>
+				</h:panelGroup>
+			
+				<p:focus for="#{loginView.focusOn}"/>
+			
+				<h:panelGroup style="display:block; margin-bottom: 2px;">
+					<p:inputText id="loginId" value="#{loginView.loginId}" placeholder="#{globalMsg['common.txt.citizen.id']}" 
+					maxlength="13"
+					valueChangeListener="#{loginView.loginIdChangeListener}"
+					style="width:95%;">
+						<f:validator validatorId="com.adms.elearning.web.validation.CitizenValidator"></f:validator>
+					</p:inputText>
+					
+				</h:panelGroup>
+				
+				<h:panelGroup id="panelFirstLogin" style="display:block;" rendered="#{loginView.firstLogin}">
+					<p:inputText id="firstName" value="#{loginView.firstName}" style="width:95%; margin-bottom:2px;" placeholder="#{globalMsg['common.txt.first.name']}" />
+					<p:inputText id="lastName" value="#{loginView.lastName}" style="width:95%;" placeholder="#{globalMsg['common.txt.last.name']}" />
+				</h:panelGroup>
+				
+				<h:panelGroup style="display:block; margin-top: 10px;text-align:center;">
+					<p:messages id="loginMsg" autoUpdate="false" style="font-size:11px; text-align:left;" closable="true"/>
+					
+					<p:commandButton id="btnSubmit" icon="fa fa-sign-in"
+						styleClass="btn-font"
+						style="width: 50%;height:30px;"
+						action="#{loginView.doLogin}" 
+						update="@form">
+					</p:commandButton>
+				</h:panelGroup>
+				
+			</p:panel>
+				
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/customLayoutTemplate.xhtml">
+
+	<ui:define name="head">
+		<title>Summarize</title>
+		<f:loadBundle var="msg" basename="com.adms.msg.summarize.summarizeMsg"/>
+		<style>
+			.main-panel {margin:40px auto 0 auto;}
+			.menu-wrapper {width:inherit;display:flex;margin:0 auto;}
+			.default-margin-table {margin: 15px auto 0 auto;}
+			.color-red {color:#FF0000;}
+			.color-green {color:#1DDE00}
+			.color-inherit {color:inherit}
+			.txt-center {text-align:center}
+			.column-action {width:90px;text-align: center}
+			.column-long {width:220px;}
+			.column-mid-long {width:190px;}
+			.column-mid {width:140px;}
+			.column-mid-short {width:100px;}
+			.column-short {width:50px;}
+			.bg-color-grey {background-color: rgb(240, 240, 240);}
+		</style>
+	</ui:define>
+		
+	<ui:define name="content">
+		<h:form id="frmSummarize">
+			<h:panelGroup id="mainPanel" styleClass="main-panel">
+			
+				<ui:remove><!-- Panel 1 - Count Candidates by Date --></ui:remove>
+				<h:panelGroup id="subPanel1" rendered="#{summarizeView.selectedByDate == null}">
+					<ui:include src="sum-tb1.xhtml"/>
+				</h:panelGroup>
+				
+				<ui:remove><!-- Panel 2 - All Candidates by Date --></ui:remove>
+				<h:panelGroup id="subPanel2" style="width:90%;" rendered="#{summarizeView.selectedByDate != null and summarizeView.candidateDetail == null}">
+					<ui:include src="sum-tb2.xhtml"/>
+				</h:panelGroup>
+				
+				<ui:remove><!-- Panel 3 - Candidate Detail --></ui:remove>
+				<h:panelGroup id="subPanel3" style="width:100%;" rendered="#{summarizeView.candidateDetail != null}">
+					<ui:include src="sum-tb3.xhtml"/>
+				</h:panelGroup>
+				
+			</h:panelGroup>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>
