@@ -18,6 +18,8 @@ import com.adms.elearning.entity.CourseResult;
 import com.adms.elearning.service.CourseEnrolmentService;
 import com.adms.elearning.service.CourseResultService;
 import com.adms.elearning.web.bean.base.BaseBean;
+import com.adms.elearning.web.bean.summarize.model.CandidateDetailBean;
+import com.adms.elearning.web.bean.summarize.model.SummarizeByDateBean;
 import com.adms.utils.DateUtil;
 
 @ManagedBean

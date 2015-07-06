@@ -25,7 +25,7 @@
 
 	<!-- Data Source -->
 	<bean id="DataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:jboss/datasources/TRAINNINGDS" />
+		<property name="jndiName" value="java:jboss/datasources/TRAININGDS" />
 	</bean>
 
 	<!-- Session Factory Declaration -->
