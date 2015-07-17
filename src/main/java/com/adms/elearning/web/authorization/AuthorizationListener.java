@@ -17,17 +17,20 @@ public class AuthorizationListener implements PhaseListener {
 	public void afterPhase(PhaseEvent event) {
 		FacesContext facesContext = event.getFacesContext();
 		String currentPage = facesContext.getViewRoot().getViewId();
-		
+
 //		System.out.println("Current Page: " + currentPage);
-		boolean isExceptionalPage = ((currentPage.lastIndexOf("importdata.xhtml")) > -1 || currentPage.toLowerCase().contains("admin"));
+		boolean isExceptionalPage = ((currentPage.lastIndexOf("importdata.xhtml")) > -1
+				|| currentPage.toLowerCase().contains("admin")
+				|| currentPage.toLowerCase().contains("error")
+				|| currentPage.toLowerCase().contains("final"));
 		boolean isLoginPage = (currentPage.lastIndexOf("login.")) > -1;
-		
+
 		if(isExceptionalPage) {
 			return;
 		}
-		
+
 		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-		
+
 		if(session == null) {
 			try {
 				redirectToLoginPage(facesContext);
@@ -46,7 +49,7 @@ public class AuthorizationListener implements PhaseListener {
 			}
 		}
 	}
-	
+
 	private void redirectToLoginPage(FacesContext facesContext) throws IOException {
 		NavigationHandler navHandler = facesContext.getApplication().getNavigationHandler();
 		navHandler.handleNavigation(facesContext, null, "loginPage");
@@ -54,7 +57,7 @@ public class AuthorizationListener implements PhaseListener {
 
 	@Override
 	public void beforePhase(PhaseEvent event) {
-		
+
 	}
 
 	@Override

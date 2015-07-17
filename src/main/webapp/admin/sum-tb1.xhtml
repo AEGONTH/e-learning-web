@@ -24,7 +24,7 @@
 		
 		<p:column headerText="#{msg['tb.summary.date.col.0']}" sortBy="#{sum.date}" styleClass="txt-center">
 			<h:outputText value="#{sum.date}">
-				<f:convertDateTime pattern="dd/MM/yyyy"/>
+				<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{summarizeView.timeZone}"/>
 			</h:outputText>
 		</p:column>
 		

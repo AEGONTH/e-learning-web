@@ -44,15 +44,16 @@
 						onstart="PF('progressDialog').show()"
 						oncomplete="PF('progressDialog').hide()"
 						update="@form"/>
-						<p:messages id="messages" closable="true"/>
+						<p:messages id="messages" autoUpdate="true" globalOnly="false" closable="true"/>
 					</h:panelGroup>
 					
 				</h:panelGroup>
 			</p:panel>
 			
-			<p:dialog widgetVar="progressDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			<p:dialog widgetVar="progressDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" style="max-width:500px;">
 				<p:graphicImage id="loader" value="/resources/image/gif/ajax-loader.gif"/>
 			</p:dialog>
+			
 		</h:form>
 	</ui:define>
 

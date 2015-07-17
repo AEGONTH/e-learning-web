@@ -4,10 +4,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 	<style>
 		.botton-wrapper {display:block;}
 		.botton-wrapper .content {display:block;}
+		.input-filter-size > input {width:90% !important;}
+		.width-7p {width:7%}
+		.width-8p {width:8%}
+		.width-12p {width:12%;}
+		.width-15p {width:15%}
+		.width-18p {width:18%}
+		.width-22p {width:22%;}
+		.width-fix-150 {width:150px;}
+		.ui-datatable tbody td {overflow: visible !important;}
 	</style>
 	
 	<div class="botton-wrapper">
@@ -35,33 +44,43 @@
 					</h:outputFormat>
 				</f:facet>
 				
-				<p:column headerText="#{msg['tb.candidates.col.0']}" sortBy="#{candidate.id}" styleClass="column-short txt-center">
-					<h:outputText value="#{candidate.id}"/>
+				<p:column headerText="Exam Date" sortBy="#{candidate.examDate}" styleClass="txt-center width-12p">
+					<h:outputText value="#{candidate.examDate}" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="#{summarizeView.timeZone}"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="#{msg['tb.candidates.col.0']}" sortBy="#{candidate.student.citizenId}" 
+					filterBy="#{candidate.student.citizenId}" filterMatchMode="contains"
+					styleClass="txt-center input-filter-size width-fix-150" >
+					<h:outputText value="#{candidate.student.citizenId}"/>
 				</p:column>
 				
 				<p:column headerText="#{msg['tb.candidates.col.1']}" sortBy="#{candidate.student.firstName}" 
-					filterBy="#{candidate.student.fullName}" filterMatchMode="contains"
-					styleClass="column-long" >
+					filterBy="#{candidate.student.fullName}" filterMatchMode="contains" styleClass="input-filter-size width-18p">
 					<h:outputText value="#{candidate.student.fullName}"/>
 				</p:column>
 				
-				<p:column headerText="#{msg['tb.candidates.col.2']}" sortBy="#{candidate.course.courseName}" styleClass="column-mid-long">
-					<h:outputText value="#{candidate.course.courseName}"/>
+				<p:column headerText="#{msg['tb.candidates.col.2']}" sortBy="#{candidate.course.courseName}" styleClass="width-15p">
+					<div style="display:inline-table;">
+						<h:outputText value="#{candidate.course.courseName}"/><br/>
+						<h:outputText value="#{candidate.section.sectionName}" style="font-size:12px;"/>
+					</div>
 				</p:column>
 				
-				<p:column headerText="#{msg['tb.candidates.col.3']}" sortBy="#{candidate.examLevel.examLevel}" styleClass="column-mid-short txt-center">
+				<p:column headerText="#{msg['tb.candidates.col.3']}" sortBy="#{candidate.examLevel.examLevel}" styleClass="txt-center width-8p" >
 					<h:outputText value="#{candidate.examLevel.examLevel}"/>
 				</p:column>
 				
-				<p:column headerText="#{msg['tb.candidates.col.4']}" sortBy="#{candidate.marks}" styleClass="column-mid-short txt-center">
+				<p:column headerText="#{msg['tb.candidates.col.4']}" sortBy="#{candidate.marks}" styleClass="txt-center width-7p">
 					<h:outputText value="#{candidate.marks}"/>
 				</p:column>
 				
-				<p:column headerText="#{msg['tb.candidates.col.5']}" styleClass="column-mid-short txt-center">
+				<p:column headerText="#{msg['tb.candidates.col.5']}" styleClass="txt-center width-7p" >
 					<h:outputText value="#{candidate.fullMarks}" />
 				</p:column>
 				
-				<p:column exportable="false" styleClass="column-action">
+				<p:column exportable="false" styleClass="txt-center width-8p">
 					<p:commandButton value="#{msg['common.btn.txt.view']}" icon="#{summarizeView.defaultIconViewDetail}" title="#{msg['common.btn.title.view']}" actionListener="#{summarizeView.onRowSelectCandidateDetail(candidate)}" update="frmMain:frmSummarize:mainPanel"/>
 				</p:column>
 				

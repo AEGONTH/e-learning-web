@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/mainTemplate.xhtml">
+
+	<ui:define name="head">
+		<ui:remove><meta http-equiv="refresh" content="30" /></ui:remove>
+		<title>e-Learning</title>
+	</ui:define>
+	
+	<ui:define name="content">
+		<p:panel>
+			<h:outputText value="Found Error!!" style="font-size:18px;"/><br/>
+			<h:outputText value="#{globalMsg['ERR.000']}" />
+		</p:panel>
+	</ui:define>
+
+</ui:composition>

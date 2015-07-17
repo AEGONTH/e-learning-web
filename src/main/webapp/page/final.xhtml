@@ -10,20 +10,19 @@
 		<title>Thank You</title>
 		
 		<style>
-			.main-panel {width:70%;min-width:350px;margin:40px auto 0 auto;}
-			.input-width {width:250px !important;}
+			.thanks {font-variant:small-caps;font-size:6em;font-weight:bold;color:#0079C2;}
 		</style>
 	</ui:define>
 	
 	<ui:define name="content">
 		<h:form id="frmMain">
+			<ui:remove>
 			<p:remoteCommand actionListener="#{loginView.doLogout}" global="false" autoRun="true" delay="1000" update="@form"/>
+			</ui:remove>
 			
-			<h:panelGrid columns="1" style="margin:0 auto; text-align:center; width:300px;">
-				<h:outputFormat value="#{globalMsg['common.txt.thank.you.1']}"/>
-					<h:outputFormat value="#{globalMsg['common.txt.thank.you.2']}">
-						<f:param value="#{loginView.delay}"/>
-					</h:outputFormat>
+			<h:panelGrid columns="1" style="margin:0 auto; text-align:center; width:100%;">
+				<h:outputFormat value="#{globalMsg['common.txt.thank.you.1']}" styleClass="thanks"/>
+				
 			</h:panelGrid>
 			
 		</h:form>

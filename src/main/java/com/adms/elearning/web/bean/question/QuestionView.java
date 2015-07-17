@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -19,6 +20,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import com.adms.elearning.entity.Answer;
+import com.adms.elearning.entity.CourseEnrolment;
 import com.adms.elearning.entity.CourseResult;
 import com.adms.elearning.entity.Question;
 import com.adms.elearning.service.AnswerService;
@@ -54,6 +56,9 @@ public class QuestionView extends BaseBean {
 
 	@ManagedProperty(value="#{courseResultService}")
 	private CourseResultService courseResultService;
+
+	@ManagedProperty(value="#{globalMsg}")
+	private ResourceBundle globalMsg;
 
 	private Map<Long, Answer> answerMap;
 
@@ -146,7 +151,7 @@ public class QuestionView extends BaseBean {
 		return choices;
 	}
 
-	public String doFinish() {
+	public String doFinish() throws Exception {
 		if(validateQuestionAnswer()) {
 			try {
 				saveAnswer();
@@ -155,7 +160,7 @@ public class QuestionView extends BaseBean {
 					.redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/page/final.jsf");
 				return "/page/final.xhtml?faces-redirect=true";
 			} catch(Exception e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 		return null;
@@ -165,38 +170,42 @@ public class QuestionView extends BaseBean {
 		sectionIntro = false;
 	}
 
-	public void nextSection() {
+	public void nextSection() throws Exception {
 		if(validateQuestionAnswer()) {
 			try {
 				saveAnswer();
 				logicNextSection();
 			} catch(Exception e) {
 				MessageUtils.getInstance().addErrorMessage(null, e.getMessage());
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}
 
-	public void nextQuestion() {
+	public void nextQuestion() throws Exception {
 		if(validateQuestionAnswer()) {
 			try {
 				saveAnswer();
 				currQuestionNum++;
 			} catch(Exception e) {
 				MessageUtils.getInstance().addErrorMessage(null, e.getMessage());
-				e.printStackTrace();
+				throw e;
 			}
 		}
 	}
 
-	public void previousQuestion() {
-		try {
-			saveAnswer();
-			currQuestionNum--;
-		} catch(Exception e) {
-			MessageUtils.getInstance().addErrorMessage(null, e.getMessage());
-			e.printStackTrace();
-		}
+	public void previousQuestion() throws Exception {
+		saveAnswer();
+		currQuestionNum--;
+	}
+
+	public String getScoreResult() {
+		String result = "";
+
+		DetachedCriteria criteria = DetachedCriteria.forClass(CourseEnrolment.class);
+
+//		globalMsg.getString("common.txt.thank.you.total.score").replaceAll("{0}", "").replaceAll("{1}", "");
+		return result;
 	}
 
 	private CourseResult saveAnswer() throws Exception {
@@ -291,6 +300,11 @@ public class QuestionView extends BaseBean {
 
 	public void setCourseResultService(CourseResultService courseResultService) {
 		this.courseResultService = courseResultService;
+	}
+
+	@Override
+	public void setGlobalMsg(ResourceBundle globalMsg) {
+		this.globalMsg = globalMsg;
 	}
 
 }

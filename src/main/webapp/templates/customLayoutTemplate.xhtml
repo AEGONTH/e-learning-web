@@ -41,10 +41,22 @@
 					</h:panelGroup>
 				</h:panelGroup>
 				
-				<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px;">
+				<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px; z-index:-1;">
 					<h:outputText value="#{baseBean.currentVersrion}"/>
 				</h:panelGroup>
 			</h:form>
+			
+			<p:ajaxExceptionHandler type="java.lang.Exception" update="exceptionDialog" onexception="PF('exceptionDialog').show();"/>
+			
+			<p:dialog id="exceptionDialog" header="Found Exception" widgetVar="exceptionDialog" height="400">
+				<p:outputLabel value="#{globalMsg['ERR.000']}" style="font-weight:bold;font-size:16px;color:#FF2222;"/>
+				<br/><br/>
+				<p:outputLabel value="#{pfExceptionHandler.formattedStackTrace}" escape="false"/>
+				<ui:remove>
+				<p:outputLabel value="Exception Type: #{pfExceptionHandler.type}"/><br/>
+				<p:outputLabel value="Exception Message: #{pfExceptionHandler.message}"/><br/>
+				</ui:remove>
+			</p:dialog>
 			
 		</h:body>
 	</f:view>
