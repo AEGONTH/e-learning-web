@@ -99,7 +99,8 @@ public class CourseInfoView extends BaseBean {
 
 	private void selectionSectionInitial(List<Section> sections) {
 		selectionSections = new ArrayList<SelectItem>();
-		selectionSections.add(new SelectItem("", super.getGlobalMsgValue("common.txt.select.all")));
+//		selectionSections.add(new SelectItem("", super.getGlobalMsgValue("common.txt.select.all")));
+		selectionSections.add(new SelectItem("", super.getGlobalMsgValue("common.txt.please.select")));
 
 		if(sections != null && !sections.isEmpty()) {
 			for(Section section : sections) {
@@ -129,7 +130,9 @@ public class CourseInfoView extends BaseBean {
 		try {
 			boolean flag = false;
 
-			if(StringUtils.isNotBlank(selectedCampaign) && StringUtils.isNotBlank(selectedLevel)) {
+			if(StringUtils.isNotBlank(selectedCampaign)
+					&& StringUtils.isNotBlank(selectedLevel)
+					&& StringUtils.isNotBlank(selectedSection)) {
 				flag = true;
 				loginSession.setCampaignId(selectedCampaign);
 				loginSession.setLevelId(selectedLevel);
@@ -140,6 +143,9 @@ public class CourseInfoView extends BaseBean {
 
 				if(StringUtils.isBlank(selectedCampaign))
 					((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMain:selectionCampaign")).setValid(false);
+
+				if(StringUtils.isBlank(selectedSection))
+					((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMain:selectionSection")).setValid(false);
 
 				MessageUtils.getInstance().addErrorMessage("msg", super.getGlobalMsgValue("validate.err.course.level.empty"));
 			}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +23,7 @@ import com.adms.elearning.entity.CourseEnrolment;
 import com.adms.elearning.entity.CourseResult;
 import com.adms.elearning.entity.Question;
 import com.adms.elearning.service.AnswerService;
+import com.adms.elearning.service.CourseEnrolmentService;
 import com.adms.elearning.service.CourseResultService;
 import com.adms.elearning.service.QuestionService;
 import com.adms.elearning.web.bean.base.BaseBean;
@@ -57,8 +57,8 @@ public class QuestionView extends BaseBean {
 	@ManagedProperty(value="#{courseResultService}")
 	private CourseResultService courseResultService;
 
-	@ManagedProperty(value="#{globalMsg}")
-	private ResourceBundle globalMsg;
+	@ManagedProperty(value="#{courseEnrolmentService}")
+	private CourseEnrolmentService courseEnrolmentService;
 
 	private Map<Long, Answer> answerMap;
 
@@ -199,12 +199,24 @@ public class QuestionView extends BaseBean {
 		currQuestionNum--;
 	}
 
-	public String getScoreResult() {
+	public String getScoreResult() throws Exception {
 		String result = "";
+		int marks = 0;
+		int fullmarks = 0;
 
-		DetachedCriteria criteria = DetachedCriteria.forClass(CourseEnrolment.class);
+		try {
+			DetachedCriteria criteria = DetachedCriteria.forClass(CourseEnrolment.class);
+			criteria.add(Restrictions.eq("id", loginSession.getCourseEnrolment().getId()));
+			CourseEnrolment ce = courseEnrolmentService.findByCriteria(criteria).get(0);
 
-//		globalMsg.getString("common.txt.thank.you.total.score").replaceAll("{0}", "").replaceAll("{1}", "");
+			marks = ce.getMarks();
+			fullmarks = ce.getFullMarks();
+
+			result = super.getGlobalMsgValue("common.txt.thank.you.total.score").replaceAll("{0}", String.valueOf(marks)).replaceAll("{1}", String.valueOf(fullmarks));
+		} catch(Exception e) {
+			throw e;
+		}
+
 		return result;
 	}
 
@@ -302,9 +314,8 @@ public class QuestionView extends BaseBean {
 		this.courseResultService = courseResultService;
 	}
 
-	@Override
-	public void setGlobalMsg(ResourceBundle globalMsg) {
-		this.globalMsg = globalMsg;
+	public void setCourseEnrolmentService(CourseEnrolmentService courseEnrolmentService) {
+		this.courseEnrolmentService = courseEnrolmentService;
 	}
 
 }
