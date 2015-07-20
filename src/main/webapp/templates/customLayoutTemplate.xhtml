@@ -27,11 +27,12 @@
 		</h:head>
 		
 		<h:body>
-			<h:form id="frmMain" >
 				<h:panelGroup>
 					<h:panelGroup id="panelHead" styleClass="headerBox">
 						<div class="adamsLogo" style="display: inline-table;"/>
-						<ui:include src="/menu-admin.xhtml" />
+						<h:form id="frmMenu">
+							<ui:include src="/menu-admin.xhtml" />
+						</h:form>
 					</h:panelGroup>
 					
 					<h:panelGroup id="panelContent">
@@ -44,7 +45,6 @@
 				<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px; z-index:-1;">
 					<h:outputText value="#{baseBean.currentVersrion}"/>
 				</h:panelGroup>
-			</h:form>
 			
 			<p:ajaxExceptionHandler type="java.lang.Exception" update="exceptionDialog" onexception="PF('exceptionDialog').show();"/>
 			

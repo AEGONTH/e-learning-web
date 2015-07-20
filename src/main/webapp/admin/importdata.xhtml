@@ -28,7 +28,6 @@
 		
 	<ui:define name="content">
 		<h:form id="frmUpload" enctype="multipart/form-data">
-			
 			<p:panel styleClass="main-panel">
 				
 				<h:panelGroup id="panelWrap" style="display:block; text-align:center;">
@@ -37,6 +36,7 @@
 					</h:panelGroup>
 					
 					<h:panelGroup style="text-align:left;display: block; margin:0 auto; width:600px">
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 						<p:fileUpload id="fileUpload" fileUploadListener="#{importFileView.handleFileUpload}"
 						mode="advanced"
 						allowTypes="/(\.|\/)(xls|xlsx)$/"
@@ -44,9 +44,7 @@
 						onstart="PF('progressDialog').show()"
 						oncomplete="PF('progressDialog').hide()"
 						update="@form"/>
-						<p:messages id="messages" autoUpdate="true" globalOnly="false" closable="true"/>
 					</h:panelGroup>
-					
 				</h:panelGroup>
 			</p:panel>
 			
