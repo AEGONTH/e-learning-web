@@ -114,11 +114,6 @@ public class ImportFileView extends BaseBean {
 
 //		Double totalRecords = Double.valueOf(dataList.size());
 
-//		Debug import file err
-		if(dataList.size() != 0) {
-			throw new Exception("CHECK ERROR !!!!!");
-		}
-
 		for(DataHolder data : dataList) {
 
 			if(!campaignName.equals(data.get("campaignName").getStringValue())) {
