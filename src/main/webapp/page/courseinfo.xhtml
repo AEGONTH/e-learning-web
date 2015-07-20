@@ -39,7 +39,7 @@
 						<p:ajax listener="#{courseInfoView.courseSelectListener()}" update="selectionSection" />
 					</p:selectOneMenu>
 					
-					<p:outputLabel value="Module: "/>
+					<p:outputLabel value="Module: " for="selectionSection"/>
 					<p:selectOneMenu id="selectionSection" value="#{courseInfoView.selectedSection}" styleClass="input-width" 
 						disabled="#{fn:length(courseInfoView.selectionSections) eq 1}">
 						<f:selectItems value="#{courseInfoView.selectionSections}"/>

@@ -1,28 +1,27 @@
 package com.adms.elearning.web.authorization;
 
-import java.io.IOException;
-
-import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
-public class AuthorizationListener implements PhaseListener {
+public class AuthorizationListener extends PhaseAuthorization {
 
-	private static final long serialVersionUID = -1177538587408767802L;
+	private static final long serialVersionUID = 6201046093069477711L;
 
 	@Override
 	public void afterPhase(PhaseEvent event) {
 		FacesContext facesContext = event.getFacesContext();
-		String currentPage = facesContext.getViewRoot().getViewId();
 
-//		System.out.println("Current Page: " + currentPage);
-		boolean isExceptionalPage = ((currentPage.lastIndexOf("importdata.xhtml")) > -1
+		String currentPage = facesContext.getViewRoot().getViewId();
+		System.out.println("phaseID:" + event.getPhaseId() + " | after: " + currentPage);
+
+		boolean isExceptionalPage = (
+				currentPage.toLowerCase().contains("index")
 				|| currentPage.toLowerCase().contains("admin")
 				|| currentPage.toLowerCase().contains("error")
 				|| currentPage.toLowerCase().contains("final"));
+
 		boolean isLoginPage = (currentPage.lastIndexOf("login.")) > -1;
 
 		if(isExceptionalPage) {
@@ -33,7 +32,7 @@ public class AuthorizationListener implements PhaseListener {
 
 		if(session == null) {
 			try {
-				redirectToLoginPage(facesContext);
+				super.redirectToLogin(facesContext);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -42,7 +41,7 @@ public class AuthorizationListener implements PhaseListener {
 //			System.out.println("Object currentUser: " + currentUser);
 			if(!isLoginPage && (currentUser == null || currentUser == "")) {
 				try {
-					redirectToLoginPage(facesContext);
+					super.redirectToLogin(facesContext);
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -50,14 +49,13 @@ public class AuthorizationListener implements PhaseListener {
 		}
 	}
 
-	private void redirectToLoginPage(FacesContext facesContext) throws IOException {
-		NavigationHandler navHandler = facesContext.getApplication().getNavigationHandler();
-		navHandler.handleNavigation(facesContext, null, "loginPage");
-	}
-
 	@Override
 	public void beforePhase(PhaseEvent event) {
-
+		FacesContext facesContext = event.getFacesContext();
+		if(facesContext.getViewRoot() != null) {
+			String currentPage = facesContext.getViewRoot().getViewId();
+			System.out.println("before: " + currentPage);
+		}
 	}
 
 	@Override

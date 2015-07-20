@@ -10,20 +10,25 @@
 		<title>Thank You</title>
 		
 		<style>
-			.thanks {font-variant:small-caps;font-size:6em;font-weight:bold;color:#0079C2;}
+			.remove-grid-border div {border:none;background:none;background-color: inherit;}
+			.ui-panelgrid .ui-grid-responsive .ui-grid-row {border-top-style: none;}
+			.thanks {font-variant:small-caps;font-size:6em;font-weight:bold;}
+			.score {font-size:3em;font-style: italic;}
 		</style>
 	</ui:define>
 	
 	<ui:define name="content">
 		<h:form id="frmMain">
-			<ui:remove>
-			<p:remoteCommand actionListener="#{loginView.doLogout}" global="false" autoRun="true" delay="1000" update="@form"/>
-			</ui:remove>
-			
-			<h:panelGrid columns="1" style="margin:0 auto; text-align:center; width:100%;">
-				<h:outputFormat value="#{globalMsg['common.txt.thank.you.1']}" styleClass="thanks"/>
-				<h:outputText value="#{questionView.scoreResult}" />
-			</h:panelGrid>
+			<p:panelGrid columns="1" layout="grid" style="margin: 0 auto; text-align:center;" styleClass="remove-grid-border">
+				<h:outputFormat value="#{globalMsg['common.txt.thank.you.1']}" styleClass="thanks aegon-color"/>
+				
+				<h:outputFormat value="#{globalMsg['common.txt.thank.you.total.score']}" styleClass="score aegon-color">
+					<f:param value="#{loginSession.scoreResult[0]}"/>
+					<f:param value="#{loginSession.scoreResult[1]}"/>
+				</h:outputFormat>
+				
+				<p:commandButton icon="fa fa-home" value="Sign Out" action="#{loginSession.signOut()}" ajax="false" process="@this" update="@this" style="margin-top:3em;"/>
+			</p:panelGrid>
 			
 		</h:form>
 	</ui:define>

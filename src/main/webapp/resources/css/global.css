@@ -12,6 +12,8 @@
 	background: inherit !important;
 }
 
+.aegon-color {color:#0079C2}
+
 .uploadPanelRemoval>div:nth-child(2) {
 	display: none !important;
 }

@@ -11,10 +11,14 @@
 	</ui:define>
 	
 	<ui:define name="content">
-		<p:panel>
-			<h:outputText value="Found Error!!" style="font-size:18px;"/><br/>
-			<h:outputText value="#{globalMsg['ERR.000']}" />
-		</p:panel>
+		<h:form id="errForm">
+			<p:panel>
+				<h:outputText value="Found Error!!" style="font-size:18px;"/><br/>
+				<h:outputText value="#{globalMsg['ERR.000']}" />
+				<br/>
+				<p:commandLink value="#{globalMsg['common.txt.back.login']}" action="#{loginSession.signOut()}" process="@this"/>
+			</p:panel>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

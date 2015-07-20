@@ -30,10 +30,10 @@
 				</h:panelGroup>
 			
 				<p:focus for="#{loginView.focusOn}"/>
-			
+				
 				<h:panelGroup style="display:block; margin-bottom: 2px;">
 					<p:inputText id="loginId" value="#{loginView.loginId}" placeholder="#{globalMsg['common.txt.citizen.id']}" 
-					maxlength="13"
+					maxlength="13" disabled="#{loginView.firstLogin}"
 					valueChangeListener="#{loginView.loginIdChangeListener}"
 					style="width:95%;">
 						<f:validator validatorId="com.adms.elearning.web.validation.CitizenValidator"></f:validator>
@@ -55,6 +55,8 @@
 						action="#{loginView.doLogin}" 
 						update="@form">
 					</p:commandButton>
+					
+					<p:commandButton id="btnCancel" value="#{globalMsg['common.txt.btn.cancel']}" actionListener="#{loginView.initial()}" rendered="#{loginView.firstLogin}" process="@this" update="@form" style="width:50%; height:30px;"/>
 				</h:panelGroup>
 				
 			</p:panel>

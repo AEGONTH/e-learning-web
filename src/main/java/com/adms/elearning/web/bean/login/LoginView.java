@@ -1,6 +1,5 @@
 package com.adms.elearning.web.bean.login;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -45,9 +44,6 @@ public class LoginView extends BaseBean {
 	private boolean firstLogin = false;
 	private boolean validateValueChange = false;
 
-	private final int COUNT_DOWN_10 = 10;
-	private int delay;
-
 	@ManagedProperty(value="#{loginSession}")
 	private LoginSession loginSession;
 
@@ -62,7 +58,6 @@ public class LoginView extends BaseBean {
 
 	@PostConstruct
 	public void initial() {
-		delay = COUNT_DOWN_10;
 		initLoginValue();
 		validateValueChange = false;
 	}
@@ -73,6 +68,10 @@ public class LoginView extends BaseBean {
 		lastName = null;
 		firstLogin = false;
 		focusOn = "loginId";
+	}
+
+	public void toLoginPage() {
+
 	}
 
 	public String doLogin() {
@@ -130,6 +129,9 @@ public class LoginView extends BaseBean {
 		if(flag) {
 //			re-direct
 //			<!-- put loginId to Session -->
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ec.getSession(true);
+
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", this.loginId);
 
 			UserLogin u = new UserLogin(loginId);
@@ -163,17 +165,17 @@ public class LoginView extends BaseBean {
 		}
 	}
 
-	public String doLogout() throws IOException {
-		if(delay < 1) {
-			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-			ec.invalidateSession();
-			ec.redirect(ec.getRequestContextPath() + "/login.jsf");
-			return "loginPage";
-		} else {
-			delay--;
-			return null;
-		}
-	}
+//	public String doLogout() throws IOException {
+//		if(delay < 1) {
+//			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//			ec.invalidateSession();
+//			ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+//			return "loginPage";
+//		} else {
+//			delay--;
+//			return null;
+//		}
+//	}
 
 	@SuppressWarnings("unused")
 	private boolean callAuthenService() throws Exception {
@@ -261,14 +263,6 @@ public class LoginView extends BaseBean {
 
 	public void setStudentService(StudentService studentService) {
 		this.studentService = studentService;
-	}
-
-	public int getDelay() {
-		return delay;
-	}
-
-	public void setDelay(int delay) {
-		this.delay = delay;
 	}
 
 	public String getFocusOn() {

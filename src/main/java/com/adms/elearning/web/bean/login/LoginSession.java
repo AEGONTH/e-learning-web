@@ -1,10 +1,17 @@
 package com.adms.elearning.web.bean.login;
 
+import java.io.IOException;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import com.adms.common.entity.UserLogin;
 import com.adms.elearning.entity.CourseEnrolment;
+import com.adms.elearning.service.CourseEnrolmentService;
 import com.adms.elearning.web.bean.base.BaseBean;
 
 @ManagedBean
@@ -18,7 +25,44 @@ public class LoginSession extends BaseBean {
 	private String levelId;
 	private String sectionId;
 
+	private boolean finished;
+
 	private CourseEnrolment courseEnrolment;
+
+	@ManagedProperty(value="#{courseEnrolmentService}")
+	private CourseEnrolmentService courseEnrolmentService;
+
+	@PostConstruct
+	private void init() {
+		finished = false;
+	}
+
+	public void signOut() throws IOException {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		ec.invalidateSession();
+		ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+	}
+
+	public Integer[] getScoreResult() {
+		Integer[] results = new Integer[2];
+		try {
+			if(isFinished()) {
+				CourseEnrolment ce = courseEnrolmentService.find(courseEnrolment.getId());
+				results[0] = ce.getMarks();
+				results[1] = ce.getFullMarks();
+			} else {
+				signOut();
+			}
+		} catch(Exception e) {
+			try {
+				signOut();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		return results;
+	}
 
 	public UserLogin getUserLogin() {
 		return userLogin;
@@ -58,6 +102,18 @@ public class LoginSession extends BaseBean {
 
 	public void setSectionId(String sectionId) {
 		this.sectionId = sectionId;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+	public void setCourseEnrolmentService(CourseEnrolmentService courseEnrolmentService) {
+		this.courseEnrolmentService = courseEnrolmentService;
 	}
 
 }

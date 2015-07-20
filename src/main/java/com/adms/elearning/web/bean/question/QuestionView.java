@@ -1,5 +1,6 @@
 package com.adms.elearning.web.bean.question;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +13,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import com.adms.elearning.entity.Answer;
-import com.adms.elearning.entity.CourseEnrolment;
 import com.adms.elearning.entity.CourseResult;
 import com.adms.elearning.entity.Question;
 import com.adms.elearning.service.AnswerService;
@@ -71,7 +70,6 @@ public class QuestionView extends BaseBean {
 		answerMap = new HashMap<>();
 
 		sectionIntro = true;
-
 		currSectionNum = 0;
 		sectionModels = new ArrayList<>();
 
@@ -87,9 +85,7 @@ public class QuestionView extends BaseBean {
 			DetachedCriteria sectionDC = questionDC.createCriteria("section", JoinType.INNER_JOIN);
 			sectionDC.createCriteria("course", JoinType.INNER_JOIN).add(Restrictions.eq("id", Long.parseLong(loginSession.getCampaignId())));
 
-			if(!StringUtils.isBlank(loginSession.getSectionId())) {
-				sectionDC.add(Restrictions.eq("id", Long.parseLong(loginSession.getSectionId())));
-			}
+			sectionDC.add(Restrictions.eq("id", Long.parseLong(loginSession.getSectionId())));
 
 			questionDC.add(Restrictions.eq("active", "Y"));
 
@@ -130,7 +126,11 @@ public class QuestionView extends BaseBean {
 			}
 
 		} catch(Exception e) {
-			e.printStackTrace();
+			try {
+				loginSession.signOut();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -155,6 +155,7 @@ public class QuestionView extends BaseBean {
 		if(validateQuestionAnswer()) {
 			try {
 				saveAnswer();
+				loginSession.setFinished(true);
 				FacesContext.getCurrentInstance()
 					.getExternalContext()
 					.redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/page/final.jsf");
@@ -197,27 +198,6 @@ public class QuestionView extends BaseBean {
 	public void previousQuestion() throws Exception {
 		saveAnswer();
 		currQuestionNum--;
-	}
-
-	public String getScoreResult() throws Exception {
-		String result = "";
-		int marks = 0;
-		int fullmarks = 0;
-
-		try {
-			DetachedCriteria criteria = DetachedCriteria.forClass(CourseEnrolment.class);
-			criteria.add(Restrictions.eq("id", loginSession.getCourseEnrolment().getId()));
-			CourseEnrolment ce = courseEnrolmentService.findByCriteria(criteria).get(0);
-
-			marks = ce.getMarks();
-			fullmarks = ce.getFullMarks();
-
-			result = super.getGlobalMsgValue("common.txt.thank.you.total.score").replaceAll("{0}", String.valueOf(marks)).replaceAll("{1}", String.valueOf(fullmarks));
-		} catch(Exception e) {
-			throw e;
-		}
-
-		return result;
 	}
 
 	private CourseResult saveAnswer() throws Exception {
@@ -317,5 +297,4 @@ public class QuestionView extends BaseBean {
 	public void setCourseEnrolmentService(CourseEnrolmentService courseEnrolmentService) {
 		this.courseEnrolmentService = courseEnrolmentService;
 	}
-
 }

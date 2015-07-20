@@ -138,16 +138,21 @@ public class CourseInfoView extends BaseBean {
 				loginSession.setLevelId(selectedLevel);
 				loginSession.setSectionId(selectedSection);
 			} else {
-				if(StringUtils.isBlank(selectedLevel))
+				if(StringUtils.isBlank(selectedLevel)) {
 					((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMain:selectionLevel")).setValid(false);
+					MessageUtils.getInstance().addErrorMessage("msg", super.getGlobalMsgValue("validate.err.level.required"));
+				}
 
-				if(StringUtils.isBlank(selectedCampaign))
+				if(StringUtils.isBlank(selectedCampaign)) {
 					((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMain:selectionCampaign")).setValid(false);
+					MessageUtils.getInstance().addErrorMessage("msg", super.getGlobalMsgValue("validate.err.campaign.required"));
+				}
 
-				if(StringUtils.isBlank(selectedSection))
+				if(StringUtils.isBlank(selectedSection)) {
 					((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMain:selectionSection")).setValid(false);
+					MessageUtils.getInstance().addErrorMessage("msg", super.getGlobalMsgValue("validate.err.section.required"));
+				}
 
-				MessageUtils.getInstance().addErrorMessage("msg", super.getGlobalMsgValue("validate.err.course.level.empty"));
 			}
 
 			if(flag) {
@@ -157,6 +162,7 @@ public class CourseInfoView extends BaseBean {
 						, StringUtils.isBlank(selectedSection) ? null : sectionService.findById(Long.parseLong(selectedSection))
 						, examTypeService.findAll().get(0));
 				loginSession.setCourseEnrolment(ce);
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("courseEnrolmentId", ce.getId());
 				return "question/questions?faces-redirect=true";
 			}
 
