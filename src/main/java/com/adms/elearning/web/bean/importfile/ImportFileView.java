@@ -46,7 +46,7 @@ public class ImportFileView extends BaseBean {
 				startImport();
 			}
 		} catch(Exception e) {
-			MessageUtils.getInstance().addErrorMessage("loginMsg", "Please, contract Administrator. >> " + e.getMessage());
+			MessageUtils.getInstance().addErrorMessage("messages", "Please, contract Administrator. >> " + e.getMessage());
 			RequestContext.getCurrentInstance().update("frmMain");
 			throw e;
 		}
@@ -57,14 +57,14 @@ public class ImportFileView extends BaseBean {
 			if(uploadedFile.getFileName().contains(".xls")) {
 				int result = importData(uploadedFile.getFileName(), uploadedFile.getContents(), uploadedFile.getContentType());
 
-				MessageUtils.getInstance().addInfoMessage("loginMsg", uploadedFile.getFileName() + " imported total " + result + " record" + (result > 1 ? "s" : ""));
+				MessageUtils.getInstance().addInfoMessage("messages", uploadedFile.getFileName() + " imported total " + result + " record" + (result > 1 ? "s" : ""));
 				uploadedFile = null;
 			} else {
-				MessageUtils.getInstance().addErrorMessage("loginMsg", uploadedFile.getFileName() + " is mismatch type. => " + uploadedFile.getContentType());
+				MessageUtils.getInstance().addErrorMessage("messages", uploadedFile.getFileName() + " is mismatch type. => " + uploadedFile.getContentType());
 			}
 
 		} else {
-			MessageUtils.getInstance().addErrorMessage("loginMsg", "Missing File. Please, re-upload.");
+			MessageUtils.getInstance().addErrorMessage("messages", "Missing File. Please, re-upload.");
 		}
 	}
 
