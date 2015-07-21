@@ -27,26 +27,26 @@ import com.adms.utils.DateUtil;
 public class SummarizeView extends BaseBean {
 
 	private static final long serialVersionUID = 8794912462979276738L;
-	
+
 	private String defaultPaginateTemplate = "{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}";
 	private String defaultIconViewDetail = "ui-icon-search";
-	
+
 	private List<SummarizeByDateBean> summarizeByDates;
-	
+
 	private SummarizeByDateBean selectedByDate;
-	
+
 	private CandidateDetailBean candidateDetail;
-	
+
 	@ManagedProperty(value="#{courseEnrolmentService}")
 	private CourseEnrolmentService courseEnrolmentService;
-	
+
 	@ManagedProperty(value="#{courseResultService}")
 	private CourseResultService courseResultService;
 
 	public SummarizeView() {
-		
+
 	}
-	
+
 	@PostConstruct
 	public void initial() {
 		try {
@@ -55,22 +55,21 @@ public class SummarizeView extends BaseBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void initialDataTable() {
 		try {
-
 			SummarizeByDateBean bean = null;
 			String yyyyMMdd = "yyyyMMdd";
 			String tempDate = "";
 			summarizeByDates = new ArrayList<>();
-			
+
 			DetachedCriteria criteria = DetachedCriteria.forClass(CourseEnrolment.class);
 			criteria.addOrder(Order.desc("examDate"));
-			
+
 			List<CourseEnrolment> list = courseEnrolmentService.findByCriteria(criteria);
 			for(CourseEnrolment ce : list) {
 				String currDate = DateUtil.convDateToString(yyyyMMdd, ce.getExamDate());
-				
+
 				if(!tempDate.equals(currDate)) {
 					tempDate = new String(currDate);
 					bean = new SummarizeByDateBean();
@@ -78,52 +77,53 @@ public class SummarizeView extends BaseBean {
 
 					summarizeByDates.add(bean);
 				}
-				
+
 				if(bean.getCandidates() == null) {
 					bean.setCandidates(new ArrayList<CourseEnrolment>());
 				}
-				
+
 				bean.getCandidates().add(ce);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void onRowSelectByDate(Object object) {
 		selectedByDate = (SummarizeByDateBean) object;
 	}
-	
+
 	public void backToByDate() {
 		selectedByDate = null;
 	}
-	
+
 	public void onRowSelectCandidateDetail(Object object) {
 		CourseEnrolment ce = (CourseEnrolment) object;
-		
+
 		DetachedCriteria criteria = DetachedCriteria.forClass(CourseResult.class);
 		criteria.createCriteria("courseEnrolment", JoinType.INNER_JOIN).add(Restrictions.eq("id", ce.getId()));
 		DetachedCriteria answerCriteria = criteria.createCriteria("answer", "a", JoinType.INNER_JOIN);
 		DetachedCriteria questionCriteria = answerCriteria.createCriteria("question", "q", JoinType.INNER_JOIN);
 		DetachedCriteria sectionCriteria = questionCriteria.createCriteria("section", "s", JoinType.INNER_JOIN);
-		
+
 		sectionCriteria.addOrder(Order.asc("id"));
 		questionCriteria.addOrder(Order.asc("questionNo"));
-		
+
 		try {
 			List<CourseResult> list = courseResultService.findByCriteria(criteria);
 			candidateDetail = new CandidateDetailBean(ce.getExamDate(), ce.getStudent(), ce.getCourse(), ce.getExamLevel(), list);
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void backToCandidatesByDate() {
 		candidateDetail = null;
 	}
-	
+
 	public List<SummarizeByDateBean> getSummarizeByDates() {
 		return summarizeByDates;
 	}
@@ -167,7 +167,7 @@ public class SummarizeView extends BaseBean {
 	public void setCandidateDetail(CandidateDetailBean candidateDetail) {
 		this.candidateDetail = candidateDetail;
 	}
-	
+
 	public void setCourseResultService(CourseResultService courseResultService) {
 		this.courseResultService = courseResultService;
 	}

@@ -212,6 +212,8 @@ public class QuestionView extends BaseBean {
 
 		DetachedCriteria criteria = DetachedCriteria.forClass(CourseResult.class);
 		criteria.createCriteria("courseEnrolment").add(Restrictions.eq("id", loginSession.getCourseEnrolment().getId()));
+		//Remove this, if dont want duplicate question when sum
+		//or keep it for loging. but must change on summary
 		criteria.createCriteria("answer").add(Restrictions.eq("id", answer.getId()));
 
 		List<CourseResult> list = courseResultService.findByCriteria(criteria);

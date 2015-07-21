@@ -17,12 +17,34 @@
 		.width-22p {width:22%;}
 		.width-fix-150 {width:150px;}
 		.ui-datatable tbody td {overflow: visible !important;}
+		@media ( max-width :50em ) {
+			.ui-datatable-reflow thead th, .ui-datatable-reflow tfoot td {
+				display: none;
+			}
+			.ui-datatable-reflow .ui-datatable-data td {
+				text-align: left;
+				display: block;
+				border: 0px none;
+				width: 100%;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				float: left;
+				clear: left;
+			}
+			.ui-datatable-reflow .ui-datatable-data td .ui-column-title {
+				padding: .4em;
+				min-width: 30%;
+				display: inline-block;
+				margin: -.4em 1em -.4em -.4em;
+			}
+		}
 	</style>
 	
 	<div class="botton-wrapper">
 		<p:commandButton value="#{msg['common.btn.txt.back']}" icon="fa fa-mail-reply" 
 			actionListener="#{summarizeView.backToByDate}" 
-			update="frmMain:frmSummarize:mainPanel"
+			update="@form"
 			style="margin-bottom:5px;"/>
 		<h:panelGroup id="panelTableContent" styleClass="content">
 			<p:dataTable id="tbCandidates"
@@ -81,7 +103,7 @@
 				</p:column>
 				
 				<p:column exportable="false" styleClass="txt-center width-8p">
-					<p:commandButton value="#{msg['common.btn.txt.view']}" icon="#{summarizeView.defaultIconViewDetail}" title="#{msg['common.btn.title.view']}" actionListener="#{summarizeView.onRowSelectCandidateDetail(candidate)}" update="frmMain:frmSummarize:mainPanel"/>
+					<p:commandButton value="#{msg['common.btn.txt.view']}" icon="#{summarizeView.defaultIconViewDetail}" title="#{msg['common.btn.title.view']}" actionListener="#{summarizeView.onRowSelectCandidateDetail(candidate)}" update="@form"/>
 				</p:column>
 				
 			</p:dataTable>

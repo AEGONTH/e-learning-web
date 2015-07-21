@@ -7,7 +7,7 @@
 
 	<div class="menu-wrapper" style="margin-bottom:5px;">
 		<div style="">
-			<p:commandButton value="#{msg['common.btn.txt.back']}" icon="fa fa-mail-reply" actionListener="#{summarizeView.backToCandidatesByDate}" update="frmMain:frmSummarize:mainPanel"/>
+			<p:commandButton value="#{msg['common.btn.txt.back']}" icon="fa fa-mail-reply" actionListener="#{summarizeView.backToCandidatesByDate}" update="@form"/>
 		</div>
 	</div>
 	<p:dataTable id="tbCandidateDetail" widgetVar="tbDetailVar"
@@ -20,7 +20,7 @@
 		paginatorPosition="bottom"
 		rows="10"
 		emptyMessage="Not found"
-		styleClass=""
+		styleClass="" expandedRow="#{summarizeView.candidateDetail.bySection.size() == 1}"
 		style="margin:0 auto;width:inherit;">
 		
 		<f:facet name="header">
@@ -66,5 +66,11 @@
 		</p:rowExpansion>
 		
 	</p:dataTable>
+	
+	<script type="text/javascript">
+		function autoExpandsRow() {
+	        $('.ui-datatable-data').find('.ui-row-toggler').eq(0).trigger('click');
+		}
+	</script>
 	
 </ui:composition>

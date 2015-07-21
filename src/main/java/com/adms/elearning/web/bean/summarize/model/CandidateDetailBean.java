@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.adms.elearning.entity.Answer;
 import com.adms.elearning.entity.Course;
 import com.adms.elearning.entity.CourseResult;
 import com.adms.elearning.entity.ExamLevel;
@@ -15,48 +16,66 @@ public class CandidateDetailBean implements Serializable {
 	private static final long serialVersionUID = -6092154700636994358L;
 
 	private Date examDate;
-	
+
 	private Student student;
-	
+
 	private Course course;
-	
+
 	private ExamLevel examLevel;
-	
+
 	private List<CourseResult> courseResults;
-	
+
 	private List<DetailGroupBySection> bySection;
-	
+
 	public CandidateDetailBean(Date examDate, Student student, Course course, ExamLevel examLevel, List<CourseResult> courseResults) {
 		this.examDate = examDate;
 		this.student = student;
 		this.course = course;
 		this.examLevel = examLevel;
 		this.courseResults = courseResults;
-		
+
 		initBySection(courseResults);
 	}
-	
+
 	private void initBySection(List<CourseResult> courseResults) {
 		bySection = new ArrayList<>();
 		DetailGroupBySection detail = null;
 		Integer marksBySection = 0;
-		
+		int idx = 0;
 		for(CourseResult data : courseResults) {
-			
+
 			if(detail == null || detail.getSectionId() != data.getAnswer().getQuestion().getSection().getId()) {
 				if(detail != null) bySection.add(detail);
-				
+
 				detail = new DetailGroupBySection();
 				detail.setSectionId(data.getAnswer().getQuestion().getSection().getId());
 				detail.setSectionName(data.getAnswer().getQuestion().getSection().getSectionName());
 				detail.setDescription(data.getAnswer().getQuestion().getSection().getSectionDescription());
 				detail.setSectionNo(data.getAnswer().getQuestion().getSection().getSectionNo());
 				detail.setResults(new ArrayList<CourseResult>());
+				idx = 0;
 				marksBySection = 0;
 			}
-			if(data.getAnswer().getAnswerType().getAnswerTypeCode().toUpperCase().equals("CORRECT_ANS")) marksBySection++;
+
+			if(idx > 0) {
+				Answer last = detail.getResults().get(idx - 1).getAnswer();
+				Answer curr = data.getAnswer();
+				if(last.getQuestion().getQuestionNo() == curr.getQuestion().getQuestionNo()
+						&& !last.getAnswerType().getAnswerTypeCode().equals(curr.getAnswerType().getAnswerTypeCode())) {
+					if(data.getAnswer().getAnswerType().getAnswerTypeCode().toUpperCase().equals("CORRECT_ANS")) {
+						marksBySection++;
+					} else {
+						marksBySection--;
+					}
+				} else {
+					if(data.getAnswer().getAnswerType().getAnswerTypeCode().toUpperCase().equals("CORRECT_ANS")) marksBySection++;
+				}
+			} else {
+				if(data.getAnswer().getAnswerType().getAnswerTypeCode().toUpperCase().equals("CORRECT_ANS")) marksBySection++;
+			}
 			detail.setMarks(marksBySection);
 			detail.getResults().add(data);
+			idx++;
 		}
 		if(detail != null) bySection.add(detail);
 	}

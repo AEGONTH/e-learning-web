@@ -102,8 +102,8 @@ public class LoginView extends BaseBean {
 						//TODO Insert to DB
 						Student example = new Student();
 						example.setCitizenId(loginId);
-						example.setFirstName(firstName);
-						example.setLastName(lastName);
+						example.setFirstName(firstName.toUpperCase());
+						example.setLastName(lastName.toUpperCase());
 
 						studentService.add(example, SYSTEM_LOG_BY);
 						flag = true;

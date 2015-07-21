@@ -19,11 +19,11 @@ import com.adms.elearning.web.util.PropertyConfig;
 public class LanguageBean implements Serializable {
 
 	private static final long serialVersionUID = 1482050801277636503L;
-	
+
 	private String localeCode;
-	
+
 	private static Map<String, String> countries;
-	
+
 	static {
 		try {
 			countries = new LinkedHashMap<>();
@@ -33,7 +33,7 @@ public class LanguageBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public LanguageBean() {
 		try {
 			if(StringUtils.isBlank(localeCode)) {
@@ -43,19 +43,19 @@ public class LanguageBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Map<String, String> getCountriesInMap() {
 		return countries;
 	}
-	
+
 	public String getLocaleCode() {
 		return localeCode;
 	}
-	
+
 	public void setLocaleCode(String localeCode) {
 		this.localeCode = localeCode;
 	}
-	
+
 	public void countryLocaleCodeChanged(ValueChangeEvent value) {
 		String newLocaleValue = value.getNewValue().toString();
 		//loop country map to compare the locale code
@@ -66,7 +66,7 @@ public class LanguageBean implements Serializable {
 			}
 		}
 	}
-	
+
 	public void setFacesContextLocale(String localeCode) {
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(this.localeCode));
 	}

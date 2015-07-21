@@ -36,7 +36,7 @@
              <p:commandButton value="#{msg['common.btn.txt.view']}"
               icon="#{summarizeView.defaultIconViewDetail}" 
               title="#{msg['common.btn.title.view']}" 
-              actionListener="#{summarizeView.onRowSelectByDate(sum)}" update="frmMain:frmSummarize:mainPanel" />
+              actionListener="#{summarizeView.onRowSelectByDate(sum)}" update="@form" />
         </p:column>
 	</p:dataTable>
 	
