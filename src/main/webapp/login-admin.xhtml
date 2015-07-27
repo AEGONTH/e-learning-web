@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dialog widgetVar="dlgLogin" modal="true" header="Sign In"
+		onHide="clip" closable="false" closeOnEscape="false"
+		resizable="false">
+		<p:ajax event="close" oncomplete="alert('Dialog Closed')"
+			update="@all" />
+
+		<h:panelGrid columns="2">
+			<p:password id="token" placeholder="Secret Key"
+				value="#{adminView.token}" style="width:250px;" required="true" />
+		</h:panelGrid>
+
+		<f:facet name="footer">
+			<p:commandButton value="Submit" actionListener="#{adminView.signIn}"
+				update="@form" oncomplete="handleLoginRequest(xhr, status, args);" />
+		</f:facet>
+	</p:dialog>
+	
+	<script type="text/javascript">
+	    function handleLoginRequest(xhr, status, args) {
+	        if(args.validationFailed || !args.loggedIn) {
+	            PF('dlgLogin').jq.effect("shake", {times:5}, 100);
+	        }
+	        else {
+	            PF('dlgLogin').hide();
+	        }
+	    }
+	</script>
+</ui:composition>

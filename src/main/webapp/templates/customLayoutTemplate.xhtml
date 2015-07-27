@@ -27,24 +27,24 @@
 		</h:head>
 		
 		<h:body>
-				<h:panelGroup>
-					<h:panelGroup id="panelHead" styleClass="headerBox">
-						<div class="adamsLogo" style="display: inline-table;"/>
-						<h:form id="frmMenu">
-							<ui:include src="/menu-admin.xhtml" />
-						</h:form>
-					</h:panelGroup>
-					
-					<h:panelGroup id="panelContent">
-						<h:panelGroup styleClass="wrapper">
-							<ui:insert name="content" />
-						</h:panelGroup>
-					</h:panelGroup>
+			<h:panelGroup id="panelWraper">
+				<h:panelGroup id="panelHead" styleClass="headerBox">
+					<div class="adamsLogo" style="display: inline-table;"/>
+					<h:form id="frmMenu">
+						<ui:include src="/menu-admin.xhtml" />
+					</h:form>
 				</h:panelGroup>
 				
-				<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px; z-index:-1;">
-					<h:outputText value="#{baseBean.currentVersrion}"/>
+				<h:panelGroup id="panelContent">
+					<h:panelGroup styleClass="wrapper">
+						<ui:insert name="content" />
+					</h:panelGroup>
 				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup style="position: fixed; bottom: 0; right:0;margin-right:10px; z-index:-1;">
+				<h:outputText value="#{baseBean.currentVersrion}"/>
+			</h:panelGroup>
 			
 			<p:ajaxExceptionHandler type="java.lang.Exception" update="exceptionDialog" onexception="PF('exceptionDialog').show();"/>
 			
@@ -57,6 +57,26 @@
 				<p:outputLabel value="Exception Message: #{pfExceptionHandler.message}"/><br/>
 				</ui:remove>
 			</p:dialog>
+			
+			<h:form id="frmLoginAdmin" rendered="false">
+				<p:growl id="validAdmMsg" globalOnly="false"/>
+				<p:dialog id="dlgLogin" widgetVar="dlgLogin" modal="true" header="Sign In" closable="false" closeOnEscape="false" resizable="false"
+					width="290"
+					height="30"
+					focus="token"
+					position="center">
+					<p:ajax event="close" update="@all" />
+			
+					<p:password id="token" placeholder="Secret Key" value="#{adminView.token}" style="width:250px;"/>
+			
+					<f:facet name="footer">
+						<p:commandButton value="Submit" actionListener="#{adminView.signIn}" update="token, validAdmMsg"/>
+					</f:facet>
+				</p:dialog>
+				
+				<h:outputText value="#{!adminView.visible}" />
+				<p:commandButton id="btnSignOut" value="out" actionListener="#{adminView.signOut()}" update="@form"/>
+			</h:form>
 			
 		</h:body>
 	</f:view>

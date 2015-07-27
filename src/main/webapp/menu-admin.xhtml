@@ -15,9 +15,11 @@
 		<p:menuitem id="menu2" value="Import Data" action="/admin/importdata">
 			<f:param name="i" value="1"/>
 		</p:menuitem>
-		<p:menuitem id="menu3" value="Candidate Summarize" action="/admin/summarize">
+		<p:menuitem id="menu3" value="Candidate Summarize" action="/admin/summarize" onclick="rcUpdateContent();" update="panelContent">
 			<f:param name="i" value="2"/>
 		</p:menuitem>
 	</p:tabMenu>
+	
+	<p:remoteCommand name="rcUpdateContent" global="false" update="panelContent"/>
 
 </ui:composition>

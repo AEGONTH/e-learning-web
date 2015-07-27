@@ -20,6 +20,7 @@
 		
 		<f:facet name="header">
 			<h:outputFormat value="#{msg['tb.summary.date.header']}"/>
+			<p:commandButton icon="fa fa-refresh" process="@this" update="@form" rendered="false"/>
 		</f:facet>
 		
 		<p:column headerText="#{msg['tb.summary.date.col.0']}" sortBy="#{sum.date}" styleClass="txt-center">

@@ -51,6 +51,9 @@ public class SummarizeView extends BaseBean {
 	public void initial() {
 		try {
 			initialDataTable();
+			backToCandidatesByDate();
+			backToByDate();
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

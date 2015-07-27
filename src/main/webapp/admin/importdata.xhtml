@@ -50,7 +50,10 @@
 			
 			<p:dialog widgetVar="progressDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" style="max-width:500px;">
 				<h:panelGrid columns="2">
-					<p:graphicImage id="loader" value="/resources/image/gif/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;"/>
+					<ui:remove>
+						<p:graphicImage id="loader" value="/resources/image/gif/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;"/>
+					</ui:remove>
+					<i class="fa fa-cog fa-spin fa-4x" style="margin-right: 12px; vertical-align: middle;"></i>
 					<h:outputText value="Please wait..." style="white-space: nowrap;"/>
 				</h:panelGrid>
 			</p:dialog>

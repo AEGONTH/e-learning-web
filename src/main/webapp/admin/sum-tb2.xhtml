@@ -15,6 +15,8 @@
 		.width-15p {width:15%}
 		.width-18p {width:18%}
 		.width-22p {width:22%;}
+		.width-fix-70 {width:70px !important;}
+		.width-fix-100 {width:100px !important;}
 		.width-fix-150 {width:150px;}
 		.ui-datatable tbody td {overflow: visible !important;}
 		@media ( max-width :50em ) {
@@ -56,9 +58,10 @@
 				paginatorTemplate="#{summarizeView.defaultPaginateTemplate}"
 				paginatorPosition="bottom"
 				rows="10"
+				scrollable="true"
 				emptyMessage="Not found"
 				styleClass=""
-				style="margin:0 auto;width:100%;">
+				style="margin:0 auto;width:100%;height:100%;">
 				
 				<f:facet name="header">
 					<h:outputFormat value="#{msg['tb.candidates.header']}">
@@ -102,7 +105,7 @@
 					<h:outputText value="#{candidate.fullMarks}" />
 				</p:column>
 				
-				<p:column exportable="false" styleClass="txt-center width-8p">
+				<p:column exportable="false" styleClass="txt-center width-fix-70">
 					<p:commandButton value="#{msg['common.btn.txt.view']}" icon="#{summarizeView.defaultIconViewDetail}" title="#{msg['common.btn.title.view']}" actionListener="#{summarizeView.onRowSelectCandidateDetail(candidate)}" update="@form"/>
 				</p:column>
 				
