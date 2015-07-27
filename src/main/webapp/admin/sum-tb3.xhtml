@@ -54,8 +54,13 @@
 				<p:column headerText="#{msg['tb.sub.candidate.detail.col.1']}" styleClass="bg-color-grey">
 					<h:outputText value="#{detail.answer.question.questionText}"/>
 				</p:column>
-				<p:column headerText="#{msg['tb.sub.candidate.detail.col.3']}" styleClass="bg-color-grey">
-					<h:outputText value="#{detail.answer.choiceLetter}) #{detail.answer.answerText}"/>
+				<p:column headerText="#{msg['tb.sub.candidate.detail.col.3']}" styleClass="bg-color-grey" >
+					<h:outputText id="showHint" value="#{detail.answer.choiceLetter}) #{detail.answer.answerText}"/>
+					<p:tooltip id="toolTipTrack" for="showHint" trackMouse="true">
+						<ui:repeat var="answer" value="#{detail.answer.question.answers}">
+							<h:outputText value="#{answer.choiceLetter}) #{answer.answerText}"/><br/>
+						</ui:repeat>
+					</p:tooltip>
 				</p:column>
 				<p:column headerText="#{msg['tb.sub.candidate.detail.col.4']}" style="width:70px;" 
 					styleClass="txt-center #{detail.answer.answerType.answerTypeCode eq 'CORRECT_ANS' ? 'color-green' : 'color-red'} bg-color-grey">
